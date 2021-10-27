@@ -3,7 +3,7 @@ from Domain.read import creare_vanzare, bagam_in_cufar, inchide_cufar, deschide_
 
 
 def main():
-    deschide_cufar()
+    librarie = []
     while True:
         print("Alegeti optiunea pe care o doriti: ")
         print("1 - Citirea primei vanzari.")
@@ -16,7 +16,6 @@ def main():
         print("u - intoarcerea listei de vanzari la versiunea precedenta ultimei modificari")
         print("x - Oprirea programului")
         optiune = str(input("optiune -> "))
-        librarie = []
         if optiune == "1":
             creare_vanzare(librarie)
         elif optiune == "2":
@@ -24,8 +23,7 @@ def main():
         elif optiune == "3":
             adaugare_vanzare(librarie)
         elif optiune == "x":
-            bagam_in_cufar(librarie)
-            inchide_cufar()
+            #bagam_in_cufar(librarie)
             break
         elif optiune == "4":
             id_vanzare = input("Id-ul vanzarii care trebuie eliminata -> ")

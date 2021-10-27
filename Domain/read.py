@@ -8,21 +8,16 @@ def creare_vanzare(librarie):
     :param librarie: o lista de dictionare
     :return: aceeasi lista de dictionare modificata
     """
-    cufarul_cu_comori = open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r+")
-    if os.path.getsize(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori") != 0:
-        scoatem_din_cufar(librarie)
-        print("S-au citit date din fisier")
-    else:
-        print("Introduceti:")
-        id = str(input("    -id-ul vanzarii: "))
-        titlu = str(input("    -titlul cartii: "))
-        gen = str(input("    -genul cartii: "))
-        pret = str(input("    -pretul cartii: "))
-        reducere = str(input("    -tipul reducerii clientului: "))
-        librarie.append({'id_vanzare': id, 'titlu': titlu, 'genul': gen, 'pret': pret, 'reducere': reducere})
-        cufarul_cu_comori = open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r+")
-        with open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r+") as convert_files:
-            convert_files.write(json.dumps(librarie))
+    print("Introduceti:")
+    id = str(input("    -id-ul vanzarii: "))
+    titlu = str(input("    -titlul cartii: "))
+    gen = str(input("    -genul cartii: "))
+    pret = str(input("    -pretul cartii: "))
+    reducere = str(input("    -tipul reducerii clientului: "))
+    vanzare = {'id_vanzare': id, 'titlu': titlu, 'genul': gen, 'pret': pret, 'reducere': reducere}
+    librarie.append(vanzare)
+    # cufarul_cu_comori = open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r+")
+    # cufarul_cu_comori.write(json.dumps(librarie))
 
 
 def scoatem_din_cufar(librarie):
@@ -30,8 +25,10 @@ def scoatem_din_cufar(librarie):
     Functia citeste o lista de dictionare din fisierul "cufarul cu comori"
     :param librarie: lista de dictionare care primeste valorile din fisier
     """
-    with open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r+") as cufarul_cu_comori:
-        librarie = json.loads(librarie)
+    with open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r") \
+            as cufarul_cu_comori:
+        librarie = json.loads(cufarul_cu_comori)
+    cufarul_cu_comori.close()
 
 
 def bagam_in_cufar(librarie):
@@ -40,10 +37,9 @@ def bagam_in_cufar(librarie):
     :param librarie: o lista de dictionare
     :return:
     """
-    cufarul_cu_comori = open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "r+")
-    with open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori",
-              "r+") as convert_files:
-        convert_files.write(json.dumps(librarie))
+    cufarul_cu_comori = open(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori", "w")
+    cufarul_cu_comori.write(json.dumps(str(librarie)))
+    cufarul_cu_comori.close()
 
 
 def deschide_cufar():
