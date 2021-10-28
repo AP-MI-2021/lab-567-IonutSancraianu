@@ -1,12 +1,11 @@
-import os.path
+from Domain.functionality import pret_minim_pt_fiecare_gen
 
-from Domain.functionality import afisare_vanzari
+dic = [{'genul': "rosu", 'pret': 123},
+       {'genul': "rosu", 'pret': 43},
+       {'genul': "albastru", 'pret': 100},
+       {'genul': "albastru", 'pret': 200},
+       {'genul': "mov", 'pret': 2},
+       {'genul': "mov", 'pret': 1},
+       {'genul': "albastru", 'pret': 50}]
 
-fsize = os.path.getsize(r"C:\Users\Chuckie\PycharmProjects\lab-567-IonutSancraianu\Domain\cufarul cu comori")
-print(fsize)
-
-s2 = {'color': "blue", 'car': "red"}
-del s2
-print(s2)
-
-
+print(pret_minim_pt_fiecare_gen(dic))

@@ -1,5 +1,6 @@
-from Domain.functionality import afisare_vanzari, adaugare_vanzare, stergere_vanzare, modificare_vanzare
-from Domain.read import creare_vanzare, bagam_in_cufar, inchide_cufar, deschide_cufar
+from Domain.functionality import afisare_vanzari, adaugare_vanzare, stergere_vanzare, modificare_vanzare, \
+    aplicare_reducere, modificare_gen
+from Domain.read import creare_vanzare
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
         print("5 - Modificarea unei liste deja existente.")
         print("6 - Aplicarea discountului in functie de tipul de reducere si afisarea noului pret "
               "pentru fiecare vanzare")
+        print("7 - Modificarea genului cartii pentru un titlu dat")
         print("u - intoarcerea listei de vanzari la versiunea precedenta ultimei modificari")
         print("x - Oprirea programului")
         optiune = str(input("optiune -> "))
@@ -23,7 +25,7 @@ def main():
         elif optiune == "3":
             adaugare_vanzare(librarie)
         elif optiune == "x":
-            #bagam_in_cufar(librarie)
+            print("Exiting...")
             break
         elif optiune == "4":
             id_vanzare = input("Id-ul vanzarii care trebuie eliminata -> ")
@@ -33,6 +35,10 @@ def main():
             key = str(input("elementul vanzarii care trebuie modificata -> "))
             modificare = str(input("modificarea propriu-zisa -> "))
             modificare_vanzare(librarie, id_vanzare, key, modificare)
+        elif optiune == "6":
+            aplicare_reducere(librarie)
+        elif optiune == "7":
+            modificare_gen(librarie)
         else:
             print("Optiune incorecta. Va rugam reincercati!")
 
