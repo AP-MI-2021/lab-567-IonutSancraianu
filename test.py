@@ -1,11 +1,15 @@
-from Domain.functionality import pret_minim_pt_fiecare_gen
+from Domain.functionality import pret_minim_pt_fiecare_gen, ordonare_dupa_pret, afisare_vanzari, titluri_distincte
 
-dic = [{'genul': "rosu", 'pret': 123},
-       {'genul': "rosu", 'pret': 43},
-       {'genul': "albastru", 'pret': 100},
-       {'genul': "albastru", 'pret': 200},
-       {'genul': "mov", 'pret': 2},
-       {'genul': "mov", 'pret': 1},
-       {'genul': "albastru", 'pret': 50}]
+dic = [{'genul': "rosu", 'titlu': "ion"},
+       {'genul': "rosu", 'titlu': "idiotul"},
+       {'genul': "albastru", 'titlu': "actiune"},
+       {'genul': "albastru", 'titlu': "romantic"},
+       {'genul': "mov", 'titlu': "ion"},
+       {'genul': "mov", 'titlu': "wasd"},
+       {'genul': "albastru", 'titlu': "actiune"},
+       {'genul': "rosu", 'titlu': "ion"}]
 
-print(pret_minim_pt_fiecare_gen(dic))
+
+titluri_distincte(dic)
+
+              

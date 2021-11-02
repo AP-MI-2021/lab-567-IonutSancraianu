@@ -1,4 +1,4 @@
-from Domain.read import get_reducere, set_pret, get_pret, set_pret_redus, get_pret_redus, get_id, get_titlu, set_titlu, \
+from Domain.read import get_reducere, get_pret, set_pret_redus, get_pret_redus, get_id, get_titlu, set_titlu, \
     get_gen
 from Logic.logic import fifteen_percent, ten_percent, minim
 
@@ -14,7 +14,8 @@ def adaugare_vanzare(librarie):
     gen = str(input("    -genul cartii: "))
     pret = str(input("    -pretul cartii: "))
     reducere = str(input("    -tipul reducerii clientului: "))
-    vanzare = {'id_vanzare': id_vanzare, 'titlu': titlu, 'genul': gen, 'pret': pret, 'reducere': reducere, 'pret redus': pret}
+    vanzare = {'id_vanzare': id_vanzare, 'titlu': titlu, 'genul': gen, 'pret': pret,
+               'reducere': reducere, 'pret redus': pret}
     librarie.append(vanzare)
 
 
@@ -28,7 +29,7 @@ def modificare_vanzare(librarie, id_vanzare, key, modificare):
     :param key: numar intreg sau sir de caractere
     """
     for i in librarie:
-        if i['id_vanzare'] == id_vanzare:
+        if get_id(i) == id_vanzare:
             i[key] = str(modificare)
         break
 
@@ -41,9 +42,9 @@ def stergere_vanzare(librarie, id_vanzare):
     """
     i = 0
     while i < len(librarie):
-        if librarie[i]['id_vanzare'] == id_vanzare:
+        if get_id(librarie[i]) == id_vanzare:
             del librarie[i]
-            i = i -1
+            i = i - 1
             break
         i += 1
 
@@ -93,6 +94,51 @@ def pret_minim_pt_fiecare_gen(librarie):
         if poc:
             gen_si_minim.append((get_gen(i), minim(librarie, get_gen(i))))
     return gen_si_minim
+
+
+def ordonare_dupa_pret(librarie):
+    """
+    Functia ordoneaza crescator vanzarile in functie de pret. Se foloseste metoda paharelor ca modalitate
+    :param librarie: O lista de dictionare
+    """
+    for i in range(0, len(librarie) - 1):
+        for j in range(i+1, len(librarie)):
+            if librarie[i]['pret'] > librarie[j]['pret']:
+                pahar = librarie[i]
+                librarie[i] = librarie[j]
+                librarie[j] = pahar
+
+
+def titluri_distincte(librarie):
+    """
+    Functia afiseaza, pentru fiecare gen, numarul de titluri distincte
+    :param librarie:
+    :return:
+    """
+    copy_vanzare = librarie.copy()
+    i = 0
+    limit = len(copy_vanzare)
+    while i < limit - 1:
+        con = 1
+        j = i + 1
+        while j < len(copy_vanzare):
+            if get_gen(copy_vanzare[i]) == get_gen(copy_vanzare[j]):
+                if get_titlu(copy_vanzare[i]) == get_titlu(copy_vanzare[j]):
+                    del copy_vanzare[j]
+                    limit -= 1
+                    j -= 1
+            j += 1
+        x = i + 1
+        while x < len(copy_vanzare):
+            if get_gen(copy_vanzare[i]) == get_gen(copy_vanzare[x]):
+                con += 1
+                del copy_vanzare[x]
+                limit -= 1
+                x -= 1
+            x += 1
+        print("Genul " + get_gen(copy_vanzare[i]) + " contine " + str(con) + " titluri distincte" + "\n")
+        i += 1
+
 
 def afisare_vanzari(librarie):
     i = 0
