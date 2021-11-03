@@ -1,4 +1,9 @@
-from Domain.functionality import pret_minim_pt_fiecare_gen, ordonare_dupa_pret, afisare_vanzari, titluri_distincte
+
+# Acest modul nu reprezinta o parte oficiala din proiect, aici testez diferite functii sau altele
+
+import re
+
+from Domain.read import get_gen
 
 dic = [{'genul': "rosu", 'titlu': "ion"},
        {'genul': "rosu", 'titlu': "idiotul"},
@@ -9,7 +14,6 @@ dic = [{'genul': "rosu", 'titlu': "ion"},
        {'genul': "albastru", 'titlu': "actiune"},
        {'genul': "rosu", 'titlu': "ion"}]
 
+lst = [0, 1, 2, 3, 4, 5]
 
-titluri_distincte(dic)
-
-              
+print(get_gen(lst))

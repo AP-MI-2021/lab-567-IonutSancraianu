@@ -1,6 +1,4 @@
-import sys
-
-from Domain.read import get_gen, get_pret
+from Domain.read import *
 
 
 def fifteen_percent(x):
@@ -31,3 +29,15 @@ def minim(librarie, key):
     return mini
 
 
+def verificare_apartenenta(lst, x):
+    """
+    Functia verifica daca elemtentul x apartine listei de liste lst
+    :param lst: o lista de liste
+    :param x: string
+    :return: True daca elementul apartine listei sau False daca nu apartine
+    """
+    for i in lst:
+        for e in i:
+            if e == x:
+                return True
+    return False
