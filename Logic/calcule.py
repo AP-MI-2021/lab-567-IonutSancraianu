@@ -1,4 +1,4 @@
-from Domain.read import *
+from Domain.read import get_gen, get_pret
 
 
 def fifteen_percent(x):
@@ -15,7 +15,7 @@ def ten_percent(x):
 
 def minim(librarie, key):
     """
-    Functia calculeaza valoarea minima dintr-un set de date dintr-un sir de dictionare, in functie de cheia din
+    Functia calculeaza valoarea minima dintr-un set de date, dintr-un sir de dictionare, in functie de cheia din
     parametrul <key>
     :param librarie: o lista de dictionare
     :param key: cheia din setul de date date pentru care se calculeaza minimul
@@ -29,15 +29,6 @@ def minim(librarie, key):
     return mini
 
 
-def verificare_apartenenta(lst, x):
-    """
-    Functia verifica daca elemtentul x apartine listei de liste lst
-    :param lst: o lista de liste
-    :param x: string
-    :return: True daca elementul apartine listei sau False daca nu apartine
-    """
-    for i in lst:
-        for e in i:
-            if e == x:
-                return True
-    return False
+
+
+
