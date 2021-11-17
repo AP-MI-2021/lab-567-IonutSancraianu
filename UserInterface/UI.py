@@ -1,18 +1,24 @@
 import re
-
 from Domain.read import creare_vanzare
-from Logic.functionality import pret_minim_pt_fiecare_gen, ordonare_dupa_pret, \
-    titluri_distincte, afisare_vanzari
+from Logic.CRUD import redo
+from Logic.functionality import titluri_distincte, salvare_versiune_redo
 from Tests.tests import *
 
+
 def main():
-    versiuni = []
+    versiuni_undo = []
     librarie = []
+    versiuni_redo = []
+    start = False
     test_modificare_vanzare()
     test_modificare_gen()
     test_stergere_vanzare()
     test_aplicare_reducere()
     test_undo()
+    test_pret_minim_pt_fiecare_gen()
+    test_ordonare_dupa_pret()
+    test_minim()
+    print()
     while True:
         print("Alegeti optiunea pe care o doriti: ")
         print("1 - Citirea primei vanzari. ")
@@ -32,49 +38,61 @@ def main():
         optiune = str(input("optiune -> "))
         if optiune == "1":
             librarie = creare_vanzare(librarie)
-            salvare_versiune(librarie, versiuni)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            start = False
         elif optiune == "a":
             afisare_vanzari(librarie)
         elif optiune == "2":
             librarie = creare_vanzare(librarie)
             afisare_vanzari(librarie)
-            salvare_versiune(librarie, versiuni)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            start = False
         elif optiune == "x":
             print("Exiting...")
             break
         elif optiune == "3":
             librarie = stergere_vanzare(librarie, id_vanzare=input("Id-ul vanzarii care trebuie eliminata -> "))
             afisare_vanzari(librarie)
-            salvare_versiune(librarie, versiuni)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            start = False
         elif optiune == "4":
-            id_vanzare = str(input("Id-ul vanzarii care trebuie modificata -> "))
-            key = int(input("elementul vanzarii care trebuie modificata "
-                            "([id_vanzare: 0, titlu: 1, gen: 2, pret: 3,reducere: 4]) -> "))
+            id_vanzare = input("Id-ul vanzarii care trebuie modificata -> ")
+            key = input("Elementul vanzarii care trebuie modificata "
+                        "([id_vanzare: 0, titlu: 1, gen: 2, pret: 3,reducere: 4]) -> ")
             modificare = input("modificarea propriu-zisa -> ")
             librarie = modificare_vanzare(librarie, id_vanzare, key, modificare)
             afisare_vanzari(librarie)
-            salvare_versiune(librarie, versiuni)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            start = False
         elif optiune == "5":
             librarie = aplicare_reducere(librarie)
             afisare_vanzari(librarie)
-            salvare_versiune(librarie, versiuni)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            start = False
         elif optiune == "6":
             titlu = str(input("Introduceti titlul cartii al carei gen trebuie modificat -> "))
             modificare = str(input("Introduceti modificarea -> "))
             librarie = modificare_gen(librarie, titlu, modificare)
             afisare_vanzari(librarie)
-            salvare_versiune(librarie, versiuni)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            start = False
         elif optiune == "7":
-            pret_minim_pt_fiecare_gen(librarie)
+            print(pret_minim_pt_fiecare_gen(librarie))
         elif optiune == "8":
-            ordonare_dupa_pret(librarie)
+            print(ordonare_dupa_pret(librarie))
         elif optiune == "9":
             titluri_distincte(librarie)
         elif optiune == "u":
-            librarie = undo(librarie, versiuni)
+            librarie = undo(librarie, versiuni_undo)
+            salvare_versiune_redo(librarie, versiuni_redo)
             afisare_vanzari(librarie)
+            start = True
         elif optiune == "r":
-            pass
+            if start:
+                librarie = redo(librarie, versiuni_redo)
+                start = False
+            else:
+                print("Nu se poate face redo.")
         else:
             print("Optiune incorecta. Va rugam reincercati!")
 
