@@ -1,10 +1,46 @@
 import copy
 
-from numpy.core.defchararray import isalnum
 from pandas.core.computation.ops import isnumeric
 
-from Domain.read import get_id, set_pret_redus, get_pret, get_reducere, get_pret_redus, get_titlu, set_gen, set_id
+from Domain.read import get_id, set_pret_redus, get_pret, get_reducere, get_pret_redus, get_titlu, set_gen, set_id, \
+    creare_vanzare
 from Logic.calcule import ten_percent, fifteen_percent, remove
+
+
+def adaugare_vanzare(librarie):
+    """
+    Functia creaza elementele unei vanzari de carte
+    :param librarie: o lista de dictionare
+    :return: aceeasi lista de dictionare modificata
+    """
+    try:
+        print("Introduceti:")
+        id_vanzare = input("    -id-ul vanzarii: ")
+        if not id_vanzare.isnumeric():
+            raise ValueError("Id-ul vanzarii trebuie sa fie un numar intreg.")
+        if librarie is not None:
+            for i in librarie:
+                if id_vanzare == get_id(i):
+                    raise ValueError("Acest id exista deja, va rugam introduceti un id valid. ")
+        titlu = str(input("    -titlul cartii: "))
+        if not remove(titlu, " ").isalnum():
+            raise ValueError("Titlul trebuie sa fie un cuvant (sau mai multe).")
+        gen = str(input("    -genul cartii: "))
+        if not remove(gen, " ").isalnum():
+            raise ValueError("Genul cartii trebuie sa fie un cuvant (sau mai multe).")
+        pret = str(input("    -pretul cartii: "))
+        if not remove(pret, ".").isnumeric():
+            raise ValueError("Pretul vanzarii trebuie sa fie un numar.")
+        reducere = str(input("    -tipul reducerii clientului: "))
+        if not (reducere in ["gold", "silver", "none"]):
+            raise ValueError("Tipul reducerii trebuie sa fie gold, silver sau none")
+        vanzare = creare_vanzare(int(id_vanzare), titlu, gen, float(pret), reducere)
+        # [id: 0, titlu: 1, gen: 2, pret: 3, reducere: 4, pret redus: 5]
+        # pretul redus are aceeasi valoare ca si pretul intreg pana la apelarea functiei aplicare_reducere
+        librarie.append(vanzare)
+        return librarie
+    except ValueError as ve:
+        print(ve)
 
 
 def modificare_vanzare(librarie, id_vanzare, key, modificare):
@@ -126,6 +162,7 @@ def undo(librarie, versiuni_undo):
         del versiuni_undo[len(versiuni_undo) - 1]
         librarie = copy.deepcopy(versiuni_undo[len(versiuni_undo) - 1])
     return librarie
+
 
 def redo(librarie, versiuni_redo):
     """

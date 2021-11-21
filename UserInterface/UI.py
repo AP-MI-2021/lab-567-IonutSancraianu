@@ -1,6 +1,5 @@
 import re
-from Domain.read import creare_vanzare
-from Logic.CRUD import redo
+from Logic.CRUD import redo, adaugare_vanzare
 from Logic.functionality import titluri_distincte, salvare_versiune_redo
 from Tests.tests import *
 
@@ -37,13 +36,13 @@ def main():
         print("x - Oprirea programului. ")
         optiune = str(input("optiune -> "))
         if optiune == "1":
-            librarie = creare_vanzare(librarie)
+            librarie = adaugare_vanzare(librarie)
             salvare_versiune_undo(librarie, versiuni_undo)
             start = False
         elif optiune == "a":
             afisare_vanzari(librarie)
         elif optiune == "2":
-            librarie = creare_vanzare(librarie)
+            librarie = adaugare_vanzare(librarie)
             afisare_vanzari(librarie)
             salvare_versiune_undo(librarie, versiuni_undo)
             start = False
@@ -111,14 +110,14 @@ def command_console():
     librarie2 = []
     for i in lista_comenzi:
         if i == "read":
-            librarie2 = creare_vanzare(librarie2)
+            librarie2 = adaugare_vanzare(librarie2)
         elif i == "showall":
             afisare_vanzari(librarie2)
         elif i == "delete":
             librarie2 = stergere_vanzare(librarie2,
                                          id_vanzare=(input("introduceti id-ul vanzarii care trebuie stearsa: ")))
         elif i == "add":
-            librarie2 = creare_vanzare(librarie2)
+            librarie2 = adaugare_vanzare(librarie2)
         elif i == "sale":
             librarie2 = aplicare_reducere(librarie2)
         else:

@@ -1,42 +1,16 @@
 
 
-from Logic.calcule import remove
-
-
-def creare_vanzare(librarie):
+def creare_vanzare(id_vanzare, titlu, gen, pret, tipul_reducerii):
     """
-    Functia creaza si adauga elementele unei vanzari de carte in lista de liste numita 'librarie'
-    :param librarie: o lista de dictionare
-    :return: aceeasi lista de dictionare modificata
+    Functia genereaza o lista cu detaliile unei vanzari de carte, din cadrul unei librarii
+    :param id_vanzare: un numar natural
+    :param titlu: un sir de caractere
+    :param gen: un sir de caractere
+    :param pret: un numar intreg sau rational
+    :param tipul_reducerii: <gold>, <silver> sau <none>
+    :return: o lista ce contine elementele de mai sus
     """
-    try:
-        print("Introduceti:")
-        id_vanzare = input("    -id-ul vanzarii: ")
-        if not id_vanzare.isnumeric():
-            raise ValueError("Id-ul vanzarii trebuie sa fie un numar intreg.")
-        if librarie is not None:
-            for i in librarie:
-                if id_vanzare == get_id(i):
-                    raise ValueError("Acest id exista deja, va rugam introduceti un id valid. ")
-        titlu = str(input("    -titlul cartii: "))
-        if not remove(titlu, " ").isalnum():
-            raise ValueError("Titlul trebuie sa fie un cuvant (sau mai multe).")
-        gen = str(input("    -genul cartii: "))
-        if not remove(gen, " ").isalnum():
-            raise ValueError("Genul cartii trebuie sa fie un cuvant (sau mai multe).")
-        pret = str(input("    -pretul cartii: "))
-        if not remove(pret, ".").isnumeric():
-            raise ValueError("Pretul vanzarii trebuie sa fie un numar.")
-        reducere = str(input("    -tipul reducerii clientului: "))
-        if not (reducere in ["gold", "silver", "none"]):
-            raise ValueError("Tipul reducerii trebuie sa fie gold, silver sau none")
-        vanzare = [int(id_vanzare),  titlu,  gen, int(pret), reducere, int(pret)]  # [id: 0, titlu: 1, gen: 2, pret: 3,
-        # reducere: 4, pret redus: 5]
-        # pretul redus are aceeasi valoare ca si pretul intreg pana la apelarea functiei aplicare_reducere
-        librarie.append(vanzare)
-        return librarie
-    except ValueError as ve:
-        print(ve)
+    return [id_vanzare, titlu, gen, pret, tipul_reducerii, int(pret)]
 
 
 def get_id(vanzare):
