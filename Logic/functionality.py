@@ -51,19 +51,23 @@ def titluri_distincte(librarie):
     copy_vanzare = librarie.copy()
     i = 0
     limit = len(copy_vanzare)
+    con_ult = 1
     while i < limit - 1:
         con = 1
         j = i + 1
-        while j < len(copy_vanzare):
+        while j < limit:
             if get_gen(copy_vanzare[i]) == get_gen(copy_vanzare[j]):
                 if get_titlu(copy_vanzare[i]) == get_titlu(copy_vanzare[j]):
                     del copy_vanzare[j]
                     limit -= 1
                     j -= 1
+                    i -= 1
             j += 1
         x = i + 1
-        while x < len(copy_vanzare):
+        while x < limit:
             if get_gen(copy_vanzare[i]) == get_gen(copy_vanzare[x]):
+                if x == limit - 1:
+                    con_ult += 1
                 con += 1
                 del copy_vanzare[x]
                 limit -= 1
@@ -71,6 +75,8 @@ def titluri_distincte(librarie):
             x += 1
         print("Genul " + get_gen(copy_vanzare[i]) + " contine " + str(con) + " titluri distincte" + "\n")
         i += 1
+    if con_ult == 1:
+        print("Genul " + get_gen(librarie[-1]) + " contine " + str(con_ult) + " titluri distincte" + "\n")
 
 
 def ordonare_dupa_pret(librarie):

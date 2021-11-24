@@ -211,8 +211,6 @@ def test_live_task_7():
     versiuni_undo = []
     versiuni_redo = []
     start = False
-    cont = 1
-    print(lst, cont)
 
     lst.append("o1")
     salvare_versiune_undo(lst, versiuni_undo)
