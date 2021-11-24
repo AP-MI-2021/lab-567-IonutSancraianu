@@ -16,7 +16,7 @@ def creare_vanzare(id_vanzare, titlu, gen, pret, tipul_reducerii):
 def get_id(vanzare):
     return vanzare[0]
 def set_id(vanzare, modificare):
-    vanzare[0] = modificare
+    vanzare[0] = int(modificare)
 
 
 def get_titlu(vanzare):
@@ -34,7 +34,7 @@ def set_gen(vanzare, modificare):
 def get_pret(vanzare):
     return vanzare[3]
 def set_pret(vanzare, modificare):
-    vanzare[3] = modificare
+    vanzare[3] = int(modificare)
 
 
 def get_reducere(vanzare):

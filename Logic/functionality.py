@@ -30,7 +30,7 @@ def minim(librarie, key):
     :param key: sir de caractere
     :return: numar intreg, prin variabila <mini>
     """
-    mini = 1000000000
+    mini = 9999999999
     for i in librarie:
         if get_gen(i) == key:
             if get_pret(i) == get_pret_redus(i):
@@ -71,7 +71,6 @@ def titluri_distincte(librarie):
             x += 1
         print("Genul " + get_gen(copy_vanzare[i]) + " contine " + str(con) + " titluri distincte" + "\n")
         i += 1
-    afisare_vanzari(librarie)
 
 
 def ordonare_dupa_pret(librarie):
@@ -96,8 +95,13 @@ def salvare_versiune_undo(librarie, versiuni_undo):
     :param librarie: o lista de liste
     :param versiuni_undo: o lista
     """
-    versiune = copy.deepcopy(librarie)
-    versiuni_undo.append(versiune)
+    if versiuni_undo:
+        if librarie != versiuni_undo[len(versiuni_undo) - 1]:
+            versiune = copy.deepcopy(librarie)
+            versiuni_undo.append(versiune)
+    else:
+        versiune = copy.deepcopy(librarie)
+        versiuni_undo.append(versiune)
 
 
 def salvare_versiune_redo(librarie, versiuni_redo):
@@ -106,13 +110,17 @@ def salvare_versiune_redo(librarie, versiuni_redo):
     :param librarie: o lista de lista
     :param versiuni_redo: o lista
     """
-    versiune = copy.deepcopy(librarie)
-    versiuni_redo.append(versiune)
+    if versiuni_redo:
+        if librarie != versiuni_redo[len(versiuni_redo) - 1]:
+            versiune = copy.deepcopy(librarie)
+            versiuni_redo.append(versiune)
+    else:
+        versiune = copy.deepcopy(librarie)
+        versiuni_redo.append(versiune)
 
 
 def afisare_vanzari(librarie):
-    i = 0
-    while i < len(librarie):
-        print(librarie[i])
-        i += 1
-    print("\n")
+    print()
+    for i in librarie:
+        print(i)
+    print()

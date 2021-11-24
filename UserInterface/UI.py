@@ -1,7 +1,9 @@
 import re
-from Logic.CRUD import redo, adaugare_vanzare
-from Logic.functionality import titluri_distincte, salvare_versiune_redo
-from Tests.tests import *
+from Logic.CRUD import redo, adaugare_vanzare, modificare_vanzare, aplicare_reducere, undo, modificare_gen, \
+    stergere_vanzare
+from Logic.functionality import titluri_distincte, salvare_versiune_redo, salvare_versiune_undo, afisare_vanzari, \
+    pret_minim_pt_fiecare_gen, ordonare_dupa_pret
+from Tests.tests import all_tests
 
 
 def main():
@@ -9,14 +11,7 @@ def main():
     librarie = []
     versiuni_redo = []
     start = False
-    test_modificare_vanzare()
-    test_modificare_gen()
-    test_stergere_vanzare()
-    test_aplicare_reducere()
-    test_undo()
-    test_pret_minim_pt_fiecare_gen()
-    test_ordonare_dupa_pret()
-    test_minim()
+    all_tests()
     print()
     while True:
         print("Alegeti optiunea pe care o doriti: ")
@@ -82,31 +77,30 @@ def main():
         elif optiune == "9":
             titluri_distincte(librarie)
         elif optiune == "u":
+            if len(versiuni_undo) != 0:
+                salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
             librarie = undo(librarie, versiuni_undo)
-            salvare_versiune_redo(librarie, versiuni_redo)
             afisare_vanzari(librarie)
             start = True
         elif optiune == "r":
-            if start:
-                librarie = redo(librarie, versiuni_redo)
-                start = False
-            else:
-                print("Nu se poate face redo.")
+            librarie = redo(librarie, versiuni_redo, start)
+            salvare_versiune_undo(librarie, versiuni_undo)
+            afisare_vanzari(librarie)
         else:
             print("Optiune incorecta. Va rugam reincercati!")
 
 
 def command_console():
-    # Separatori luati in considerare: , . ;
     print("Lista comenzilor:")
     print("    - read -> citirea primei vanzari;")
     print("    - showall -> afisarea tuturor vanzarilor;")
     print("    - delete -> stergerea unei anume vanzari;")
     print("    - add -> adaugarea unei vanzari;")
     print("    - sale -> Aplicarea discountului in functie de tipul de reducere;")
+    print("Separatori luati in considerare: , . ;")
     print("OBS: Orice alta comanda decat cele descrise mai sus rezulta in oprirea programului.")
     str_comenzi = str(input("introduceti sirul de comenzi: "))
-    lista_comenzi = re.split(', |. |;', str_comenzi)
+    lista_comenzi = re.split(', |. |; | ', str_comenzi)
     librarie2 = []
     for i in lista_comenzi:
         if i == "read":

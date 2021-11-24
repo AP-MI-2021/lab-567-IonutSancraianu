@@ -2,8 +2,8 @@ import copy
 
 from pandas.core.computation.ops import isnumeric
 
-from Domain.read import get_id, set_pret_redus, get_pret, get_reducere, get_pret_redus, get_titlu, set_gen, set_id, \
-    creare_vanzare
+from Domain.read import get_id, get_pret, get_reducere, get_pret_redus, get_titlu, set_gen, \
+    creare_vanzare, set_pret_redus
 from Logic.calcule import ten_percent, fifteen_percent, remove
 
 
@@ -18,10 +18,12 @@ def adaugare_vanzare(librarie):
         id_vanzare = input("    -id-ul vanzarii: ")
         if not id_vanzare.isnumeric():
             raise ValueError("Id-ul vanzarii trebuie sa fie un numar intreg.")
-        if librarie is not None:
-            for i in librarie:
-                if id_vanzare == get_id(i):
+        if len(librarie) > 0:
+            i = 0
+            while i < len(librarie):
+                if int(id_vanzare) == get_id(librarie[i]):
                     raise ValueError("Acest id exista deja, va rugam introduceti un id valid. ")
+                i += 1
         titlu = str(input("    -titlul cartii: "))
         if not remove(titlu, " ").isalnum():
             raise ValueError("Titlul trebuie sa fie un cuvant (sau mai multe).")
@@ -41,6 +43,7 @@ def adaugare_vanzare(librarie):
         return librarie
     except ValueError as ve:
         print(ve)
+        return librarie
 
 
 def modificare_vanzare(librarie, id_vanzare, key, modificare):
@@ -67,22 +70,24 @@ def modificare_vanzare(librarie, id_vanzare, key, modificare):
             if not remove(modificare, " ").isalnum():
                 raise ValueError("Modificarea elementulul selectat al vanzarii trebuie sa fie un cuvant "
                                  "(sau mai multe)")
+        elif int(key) == 0:
+            if not modificare.isnumeric():
+                raise ValueError("Modificarea pentru id-ul vanzarii trebuie sa fie un numar natural.")
+            for j in librarie:
+                if int(modificare) == get_id(j):
+                    raise ValueError("Acest id exista deja, "
+                                     "va rugam introduceti o modificare valida pentru id-ul vanzarii. ")
         for i in librarie:
-            if id_vanzare == get_id(i):
-                if int(key) == 0:
-                    if not modificare.isnumeric():
-                        raise ValueError("Modificarea pentru id-ul vanzarii trebuie sa fie un numar natural.")
-                    for j in librarie:
-                        if modificare == get_id(j):
-                            raise ValueError("Acest id exista deja, "
-                                             "va rugam introduceti o modificare valida pentru id-ul vanzarii. ")
-                    set_id(i, modificare)
+            if int(id_vanzare) == get_id(i):
+                if key == "0" or key == "3":
+                    i[int(key)] = int(modificare)
                 else:
                     i[int(key)] = modificare
-                    break
         return librarie
     except ValueError as ve:
         print(ve)
+        return librarie
+
 
 def stergere_vanzare(librarie, id_vanzare):
     """
@@ -93,24 +98,26 @@ def stergere_vanzare(librarie, id_vanzare):
     try:
         if not id_vanzare.isnumeric():
             raise ValueError("Id-ul vanzarii trebuie sa fie un numar.")
-        i = 0
-        while i < len(librarie):
-            if get_id(librarie[i]) == id_vanzare:
-                del librarie[i]
-                i = i - 1
-                break
-            i += 1
+        else:
+            i = 0
+            while i < len(librarie):
+                if get_id(librarie[i]) == int(id_vanzare):
+                    del librarie[i]
+                    i = i - 1
+                    break
+                i += 1
         return librarie
     except ValueError as ve:
         print(ve)
+        return librarie
 
 
 def aplicare_reducere(librarie):
     """
-    Functia aplica reducerea corespondeta tipului de reducere cuvenit, dictionarul contine si pretul initial al cartii,
+    Functia aplica reducerea corespondeta tipului de reducere cuvenit, lista contine si pretul initial al cartii,
     dar si pretul redus
     :param librarie: o lista de liste
-
+    :return: lista de liste modificata
     """
     for i in librarie:
         if get_pret(i) == get_pret_redus(i):
@@ -121,7 +128,7 @@ def aplicare_reducere(librarie):
             elif get_reducere(i) == "none":
                 set_pret_redus(i, int(get_pret(i)))
         else:
-            print("Pentru vanzarea " + get_id(i) + ", a fost deja aplicata o reducere.")
+            print("Pentru vanzarea ", get_id(i), ", a fost deja aplicata o reducere.")
     return librarie
 
 
@@ -137,13 +144,14 @@ def modificare_gen(librarie, titlu, modificare):
     try:
         if not remove(titlu, " ").isalnum():
             raise ValueError("Titlul trebuie sa fie un cuvant.")
-
+    except ValueError as ve:
+        print(ve)
+        return librarie
+    else:
         for i in librarie:
             if get_titlu(i) == titlu:
                 set_gen(i, modificare)
         return librarie
-    except ValueError as ve:
-        print(ve)
 
 
 def undo(librarie, versiuni_undo):
@@ -158,19 +166,31 @@ def undo(librarie, versiuni_undo):
     elif len(versiuni_undo) == 1:
         del versiuni_undo[0]
         del librarie[0]
+        # librarie = copy.deepcopy(versiuni_undo[0])
+        # del versiuni_undo[0]
     else:
         del versiuni_undo[len(versiuni_undo) - 1]
         librarie = copy.deepcopy(versiuni_undo[len(versiuni_undo) - 1])
     return librarie
 
 
-def redo(librarie, versiuni_redo):
+def redo(librarie, versiuni_redo, start):
     """
-    Functia restaureaza lista de liste librarie la versoinea precedenta ultimului undo
+    Functia restaureaza lista de liste librarie la versoinea precedenta ultimului undo, daca start este True
+    :param start: parametru de tip bool
     :param librarie:
     :param versiuni_redo:
     :return:
     """
-    del versiuni_redo[len(versiuni_redo) - 1]
-    librarie = copy.deepcopy(versiuni_redo[len(versiuni_redo) - 1])
+    if start:
+        if len(versiuni_redo) == 1:
+            librarie = copy.deepcopy(versiuni_redo[0])
+            del versiuni_redo[0]
+        elif len(versiuni_redo) == 0:
+            print("Nu se mai poate face redo. ")
+        else:
+            librarie = copy.deepcopy(versiuni_redo[len(versiuni_redo) - 1])
+            del versiuni_redo[len(versiuni_redo) - 1]
+    else:
+        print("Nu se mai poate face redo. ")
     return librarie

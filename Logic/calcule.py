@@ -20,7 +20,3 @@ def remove(txt, x):
     :return: sirul de caractere txt fara toate caractere din sirul x
     """
     return txt.replace(x, "")
-
-
-
-
