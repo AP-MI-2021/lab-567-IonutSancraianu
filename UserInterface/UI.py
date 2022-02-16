@@ -1,4 +1,7 @@
 import re
+
+from Domain.read import creare_vanzare
+
 from Logic.CRUD import redo, adaugare_vanzare, modificare_vanzare, aplicare_reducere, undo, modificare_gen, \
     stergere_vanzare
 from Logic.functionality import titluri_distincte, salvare_versiune_redo, salvare_versiune_undo, afisare_vanzari, \
@@ -99,24 +102,29 @@ def command_console():
     print("    - sale -> Aplicarea discountului in functie de tipul de reducere;")
     print("Separatori luati in considerare: , . ;")
     print("OBS: Orice alta comanda decat cele descrise mai sus rezulta in oprirea programului.")
-    str_comenzi = str(input("introduceti sirul de comenzi: "))
+    str_comenzi = str(input("introduceti sirul de comenzi si datele de intrare: "))
     lista_comenzi = re.split(', |. |; | ', str_comenzi)
+    print(lista_comenzi)
     librarie2 = []
-    for i in lista_comenzi:
-        if i == "read":
-            librarie2 = adaugare_vanzare(librarie2)
-        elif i == "showall":
+    i = 0
+    n = len(lista_comenzi)
+    while i < n:
+        if lista_comenzi[i] == "read":
+            librarie2.append(creare_vanzare(lista_comenzi[i+1], lista_comenzi[i+2], lista_comenzi[i+3],
+                                            lista_comenzi[i+4], lista_comenzi[i+5]))
+            i = i + 5
+        elif lista_comenzi[i] == "showall":
             afisare_vanzari(librarie2)
-        elif i == "delete":
-            librarie2 = stergere_vanzare(librarie2,
-                                         id_vanzare=(input("introduceti id-ul vanzarii care trebuie stearsa: ")))
-        elif i == "add":
-            librarie2 = adaugare_vanzare(librarie2)
-        elif i == "sale":
+        elif lista_comenzi[i] == "delete":
+            librarie2 = stergere_vanzare(librarie2, id_vanzare=lista_comenzi[i+1])
+            i = i + 1
+        elif lista_comenzi[i] == "add":
+            librarie2.append(creare_vanzare(lista_comenzi[i+1], lista_comenzi[i+2], lista_comenzi[i+3],
+                                            lista_comenzi[i+4], lista_comenzi[i+5]))
+            i = i + 5
+        elif lista_comenzi[i] == "sale":
             librarie2 = aplicare_reducere(librarie2)
-        else:
-            print("Comanda introdusa este incorecta." + "\n" + "Exiting...")
-            break
+        i = i + 1
 
 
 if __name__ == '__main__':

@@ -16,8 +16,6 @@ def adaugare_vanzare(librarie):
     try:
         print("Introduceti:")
         id_vanzare = input("    -id-ul vanzarii: ")
-        if not id_vanzare.isnumeric():
-            raise ValueError("Id-ul vanzarii trebuie sa fie un numar intreg.")
         if len(librarie) > 0:
             i = 0
             while i < len(librarie):
@@ -25,18 +23,10 @@ def adaugare_vanzare(librarie):
                     raise ValueError("Acest id exista deja, va rugam introduceti un id valid. ")
                 i += 1
         titlu = str(input("    -titlul cartii: "))
-        if not remove(titlu, " ").isalnum():
-            raise ValueError("Titlul trebuie sa fie un cuvant (sau mai multe).")
         gen = str(input("    -genul cartii: "))
-        if not remove(gen, " ").isalnum():
-            raise ValueError("Genul cartii trebuie sa fie un cuvant (sau mai multe).")
         pret = str(input("    -pretul cartii: "))
-        if not remove(pret, ".").isnumeric():
-            raise ValueError("Pretul vanzarii trebuie sa fie un numar.")
         reducere = str(input("    -tipul reducerii clientului: "))
-        if not (reducere in ["gold", "silver", "none"]):
-            raise ValueError("Tipul reducerii trebuie sa fie gold, silver sau none")
-        vanzare = creare_vanzare(int(id_vanzare), titlu, gen, float(pret), reducere)
+        vanzare = creare_vanzare(id_vanzare, titlu, gen, pret, reducere)
         # [id: 0, titlu: 1, gen: 2, pret: 3, reducere: 4, pret redus: 5]
         # pretul redus are aceeasi valoare ca si pretul intreg pana la apelarea functiei aplicare_reducere
         librarie.append(vanzare)
