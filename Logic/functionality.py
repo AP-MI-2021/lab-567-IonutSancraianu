@@ -5,9 +5,11 @@ from Domain.read import get_gen, get_titlu, get_pret, get_pret_redus
 
 def pret_minim_pt_fiecare_gen(librarie):
     """
-    Functia afiseaza pretul minim pentru fiecare gen diferit din lista <librarie>
+    Functia afiseaza pretul minim pentru fiecare gen diferit din lista
+    <librarie>
     :param: o lista de liste
-    :return: Returneaza o lista de liste cu perechi de elemente, primul element este genul cartii,
+    :return: Returneaza o lista de liste cu perechi de elemente,
+     primul element este genul cartii,
     iar urmatorul element este pretul minim
     """
     # daca reducerea a fost aplicata, algoritul va tine cont de pretul redus
@@ -25,7 +27,8 @@ def pret_minim_pt_fiecare_gen(librarie):
 
 def minim(librarie, key):
     """
-    Functia calculeaza pretul minim, din toate vanzarile, pentru un anume gen de carte, din parametrul <key>
+    Functia calculeaza pretul minim, din toate vanzarile,
+    pentru un anume gen de carte, din parametrul <key>
     :param librarie: o lista de liste
     :param key: sir de caractere
     :return: numar intreg, prin variabila <mini>
@@ -73,15 +76,18 @@ def titluri_distincte(librarie):
                 limit -= 1
                 x -= 1
             x += 1
-        print("Genul " + get_gen(copy_vanzare[i]) + " contine " + str(con) + " titluri distincte" + "\n")
+        print("Genul " + get_gen(copy_vanzare[i]) + " contine " +
+              str(con) + " titluri distincte" + "\n")
         i += 1
     if con_ult == 1:
-        print("Genul " + get_gen(librarie[-1]) + " contine " + str(con_ult) + " titluri distincte" + "\n")
+        print("Genul " + get_gen(librarie[-1]) + " contine " +
+              str(con_ult) + " titluri distincte" + "\n")
 
 
 def ordonare_dupa_pret(librarie):
     """
-    Functia ordoneaza crescator vanzarile in functie de pret. Se foloseste metoda paharelor ca modalitate
+    Functia ordoneaza crescator vanzarile in functie de pret.
+     Se foloseste metoda paharelor ca modalitate
     :param librarie: O lista de liste
 
     """
@@ -97,7 +103,8 @@ def ordonare_dupa_pret(librarie):
 
 def salvare_versiune_undo(librarie, versiuni_undo):
     """
-    Functia salveaza o copie a listei de liste din variabila librarie in lista versiuni_undo
+    Functia salveaza o copie a listei de liste din variabila
+     librarie in lista versiuni_undo
     :param librarie: o lista de liste
     :param versiuni_undo: o lista
     """
@@ -112,7 +119,8 @@ def salvare_versiune_undo(librarie, versiuni_undo):
 
 def salvare_versiune_redo(librarie, versiuni_redo):
     """
-    Funcntia salveaza o copie a listei de liste din variabila librariia in lista versiuni_redo
+    Funcntia salveaza o copie a listei de liste din variabila
+    librariia in lista versiuni_redo
     :param librarie: o lista de lista
     :param versiuni_redo: o lista
     """

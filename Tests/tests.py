@@ -1,9 +1,12 @@
-from Logic.CRUD import modificare_vanzare, stergere_vanzare, aplicare_reducere, modificare_gen, undo, redo
-from Logic.functionality import salvare_versiune_undo, pret_minim_pt_fiecare_gen, ordonare_dupa_pret, minim, \
+from Logic.CRUD import modificare_vanzare, stergere_vanzare,\
+    aplicare_reducere, modificare_gen, undo, redo
+from Logic.functionality import salvare_versiune_undo,\
+    pret_minim_pt_fiecare_gen, ordonare_dupa_pret, minim, \
     salvare_versiune_redo
 
 
-# [id: 0, titlu: 1, gen: 2, pret: 3, reducere: 4, pret redus: 5] -> legenda cu indexarea elementelor
+# [id: 0, titlu: 1, gen: 2, pret: 3, reducere: 4, pret redus: 5]
+# -> legenda cu indexarea elementelor
 def test_modificare_vanzare():
     lst = [
         [123, "ion", "actiune", "90", "gold", "90"],
@@ -37,7 +40,8 @@ def test_stergere_vanzare():
         [234, "idiotul", "deeper one", "123", "silver", "123"],
         [345, "alchimistul", "psihologic", "78", "none", "78"]
     ]
-    assert(stergere_vanzare(lst, "345")) == [[234, "idiotul", "deeper one", "123", "silver", "123"]]
+    assert(stergere_vanzare(lst, "345")) == [[234, "idiotul", "deeper one",
+                                              "123", "silver", "123"]]
     assert(stergere_vanzare(lst, "234")) == []
 
 
@@ -125,8 +129,10 @@ def test_undo():
 
 
 def test_pret_minim_pt_fiecare_gen():
-    # [id: 0, titlu: 1, gen: 2, pret: 3, reducere: 4, pret redus: 5] -> legenda cu indexarea elementelor
-    # dat fiind ca algoritmul foloseste doar elementele gen ( 2 ) si pret ( 3 ), doar acestea vor fi prezente in sir
+    # [id: 0, titlu: 1, gen: 2, pret: 3, reducere: 4, pret redus: 5] ->
+    # legenda cu indexarea elementelor
+    # dat fiind ca algoritmul foloseste doar elementele gen ( 2 ) si pret
+    # ( 3 ), doar acestea vor fi prezente in sir
     lst = [
         ["123", "wasd", "actiune", "100", "gold", "100"],
         ["124", "wasd", "romantic", "67", "gold", "67"],
@@ -135,7 +141,9 @@ def test_pret_minim_pt_fiecare_gen():
         ["1244", "wasd", "dezvoltare", "100", "gold", "100"],
         ["2354", "wasd", "actiune", "30", "gold", "30"]
     ]
-    assert(pret_minim_pt_fiecare_gen(lst)) == [("actiune", 15), ("romantic", 67), ("dezvoltare", 100)]
+    assert(pret_minim_pt_fiecare_gen(lst)) == [("actiune", 15),
+                                               ("romantic", 67),
+                                               ("dezvoltare", 100)]
     lst = [
         [" ", " ", "actiune", "9", "gold", "9"],
         [" ", " ", "romantic", "67", "gold", "67"],
@@ -144,7 +152,9 @@ def test_pret_minim_pt_fiecare_gen():
         [" ", " ", "dezvoltare", "40", "gold", "40"],
         [" ", " ", "actiune", "9", "gold", "9"]
     ]
-    assert (pret_minim_pt_fiecare_gen(lst)) == [("actiune", 9), ("romantic", 38), ("dezvoltare", 40)]
+    assert (pret_minim_pt_fiecare_gen(lst)) == [("actiune", 9),
+                                                ("romantic", 38),
+                                                ("dezvoltare", 40)]
 
 
 def test_ordonare_dupa_pret():
@@ -222,17 +232,21 @@ def test_live_task_7():
     salvare_versiune_undo(lst, versiuni_undo)
 
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     start = True
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
 
     lst.append("o1")
@@ -247,11 +261,13 @@ def test_live_task_7():
     salvare_versiune_undo(lst, versiuni_undo)
 
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     start = True
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     lst = redo(lst, versiuni_redo, start)
     salvare_versiune_undo(lst, versiuni_undo)
@@ -259,11 +275,13 @@ def test_live_task_7():
     salvare_versiune_undo(lst, versiuni_undo)
 
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     start = True
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
 
     lst.append("o4")
@@ -275,11 +293,13 @@ def test_live_task_7():
     versiuni_redo.clear()
 
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
     start = True
     if len(versiuni_undo) != 0:
-        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1], versiuni_redo)
+        salvare_versiune_redo(versiuni_undo[len(versiuni_undo) - 1],
+                              versiuni_redo)
     lst = undo(lst, versiuni_undo)
 
     lst = redo(lst, versiuni_redo, start)
