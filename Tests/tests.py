@@ -26,6 +26,7 @@ def test_modificare_vanzare():
         [345, "alchimistul", "psihologic", "78", "silver", "78"]
     ]
 
+
 def test_stergere_vanzare():
     lst = [
         [123, "ion", "actiune", "90", "gold", "90"],
@@ -290,7 +291,6 @@ def test_live_task_7():
     assert lst == ["o1", "o4"]
 
 
-test_redo()
 def all_tests():
     test_modificare_vanzare()
     test_modificare_gen()
