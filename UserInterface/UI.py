@@ -124,6 +124,9 @@ def command_console():
             i = i + 5
         elif lista_comenzi[i] == "sale":
             librarie2 = aplicare_reducere(librarie2)
+        else:
+            print(f"Comanda {lista_comenzi[i]} este gresita.")
+            break
         i = i + 1
 
 
